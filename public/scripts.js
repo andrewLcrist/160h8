@@ -1,4 +1,3 @@
-renderHatred()
 renderData()
 
 function renderData() {
@@ -46,14 +45,33 @@ function renderOffenderNames(obj) {
   obj.forEach(e => {
     $('.offender-names').append(
       `
-      <button class="${e[0]}" onclick="renderSelected()" >${e[1]}</button>
+      <button class="${e[0]}" onclick="renderSelected(${e[0]})" >${e[1]}</button>
       `
     )
   })
 }
 
-function renderSelected() {
-  console.log('hello');
+function renderSelected(id) {
+  clearHatred()
+  $.get(`/hateList/${id}`, function(details){
+      let person = details.hateList
+      let forgiveness = person.forgive == "false" ? "Not Forgiven" : "Forgiven"
+      $('.hate-table').append(
+        `<tr>
+          <td>Offender: ${person.name}</td>
+        </tr>
+        <tr>
+          <td>Offense: ${person.offense}</td>
+        </tr>
+        <tr>
+          <td>Date of Offense: ${person.date}</td>
+        </tr>
+        <tr>
+          <td>Forgiven? <button class="toggle-hatred" onclick="toggleForgiveness(${person.id})" >${forgiveness}</button></td>
+        </tr>
+        `
+      )
+    })
 }
 
 $('.submit').click(function(e){
@@ -71,34 +89,7 @@ $('.submit').click(function(e){
       hated
     }
   })
-  .then(function() {
-    renderHatred()
-  })
 })
-
-// function renderHatred() {
-//   clearHatred()
-//   $.get('/hateList', function(hateList){
-//     hateList.forEach(function(hated){
-//       let forgiveness = hated.forgive == "false" ? "Not Forgiven" : "Forgiven"
-//       $('.hate-table').append(
-//         `  <tr>
-//             <td>Offender: ${hated.name}</td>
-//           </tr>
-//           <tr>
-//             <td>Offense: ${hated.offense}</td>
-//           </tr>
-//           <tr>
-//             <td>Date of Offense: ${hated.date}</td>
-//           </tr>
-//           <tr>
-//             <td>Forgiven? <button class="toggle-hatred" onclick="toggleForgiveness(${hated.id})" >${forgiveness}</button></td>
-//           </tr>
-//         `
-//       )
-//     })
-//   })
-// }
 
 function clearHatred() {
   $('.hate-table').empty()
@@ -115,7 +106,10 @@ function toggleForgiveness(id) {
       }
     })
     .then(function() {
-      renderHatred()
+      renderForgiven()
+      renderUnforgiven()
+      clearHatred()
+      renderSelected(id)
     })
   })
 }
