@@ -18,8 +18,8 @@ describe('GET /hate', () => {
     .expect(200, done);
   });
 
-  it('should create a new monster', (done) => {
-  const monster = { id: 1, name: 'Steve', level: 2 };
+  it('should create a new hated', (done) => {
+  const hate = { id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 1487871736688 };
 
   request(app)
     .post('/hate')
