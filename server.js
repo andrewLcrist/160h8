@@ -29,4 +29,17 @@ app.post('/hateList', (request, response) => {
   response.status(201).send({ hated: hated });
 });
 
+app.put('/hateList/:id', (request, response) => {
+  const hated = request.body.hated;
+  const id = parseInt(request.params.id, 10);
+  const index = app.locals.hateList.findIndex((m) => m.id === id);
+
+  if (index === -1) { return response.sendStatus(404); }
+
+  const formerHated = app.locals.hateList[index];
+  app.locals.hateList[index] = Object.assign(formerHated, hated);
+
+  return response.sendStatus(204);
+});
+
 module.exports = app;

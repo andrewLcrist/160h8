@@ -28,3 +28,29 @@ describe('GET /hateList', () => {
 });
 
 });
+
+describe('UPDATE /hateList/:id', () => {
+
+  beforeEach(() => {
+    app.locals.hateList = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 1487872785747}];
+  });
+
+  afterEach(() => {
+    app.locals.hateList = [];
+  });
+
+  it('should update a hated person with the correct forgiveness ', (done) => {
+    const hated = app.locals.hateList[0];
+    console.log(app.locals.hateList[0])
+
+    request(app)
+      .put(`/hateList/${hated.id}`)
+      .send({ hated: { forgive: false } })
+      .expect(204)
+      .end(() => {
+        assert.equal(app.locals.hateList[0].forgive, false);
+        done();
+      });
+  });
+
+});
