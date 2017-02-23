@@ -1,0 +1,29 @@
+{
+  "name": "160h8",
+  "version": "1.0.0",
+  "description": "The most h8ful app ever.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewLcrist/160h8.git"
+  },
+  "author": "Andrew Crist",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewLcrist/160h8/issues"
+  },
+  "homepage": "https://github.com/andrewLcrist/160h8#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "supertest": "^3.0.0"
+  }
+}
