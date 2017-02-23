@@ -5,7 +5,7 @@ const path = require('path');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.locals.hateList = [{id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 1487872785747}]
+app.locals.hateList = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 1487872785747 }]
 
 if (!module.parent) {
   app.listen(3000, () => {
@@ -20,7 +20,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/hateList', (request, response) => {
-  response.send({ hateList: app.locals.hateList });
+  response.send( app.locals.hateList );
 });
 
 app.get('/hateList/:id', (request, response) => {
@@ -33,7 +33,7 @@ app.get('/hateList/:id', (request, response) => {
 });
 
 app.post('/hateList', (request, response) => {
-  const {hated} = request.body;
+  const { hated } = request.body;
 
   hated.id = hated.id || Date.now();
   hated.forgive = hated.forgive || false
