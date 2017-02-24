@@ -1,8 +1,32 @@
 renderData()
 
+$('.submit').click(function(e){
+  e.preventDefault()
+  clearOffenders()
+  let hated = {
+    name: $('.name').val(),
+    offense: $('.offense').val(),
+    date: $('.date').val()
+  }
+
+  $.ajax({
+    type: "POST",
+    url: '/hateList',
+    data: {
+      hated
+    }
+  })
+  renderData()
+})
+
+function clearOffenders() {
+  $('.offender-names').empty()
+}
+
 function renderData() {
+  clearOffenders()
   renderTotalOffenders()
-  getOffenderNames()
+  getOffenderNames(renderOffenderNames)
   renderForgiven()
   renderUnforgiven()
 }
@@ -33,11 +57,9 @@ function renderUnforgiven() {
   })
 }
 
-function getOffenderNames() {
+function getOffenderNames(task) {
   $.get('/hateList', function(hateList){
-      let obj = []
-      let nameArray = hateList.forEach(e => obj.push([e.id, e.name])  )
-      renderOffenderNames(obj)
+      task(hateList)
     })
 }
 
@@ -45,14 +67,28 @@ function renderOffenderNames(obj) {
   obj.forEach(e => {
     $('.offender-names').append(
       `
-      <button class="${e[0]}" onclick="renderSelected(${e[0]})" >${e[1]}</button>
+      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
+      `
+    )
+  })
+}
+
+$('.filter-name').on('click', function() {
+  clearOffenders()
+  getOffenderNames(renderOffenderNamesSorted)
+})
+
+function renderOffenderNamesSorted(obj) {
+  obj.forEach(e => {
+    $('.offender-names').append(
+      `
+      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
       `
     )
   })
 }
 
 function renderSelected(id) {
-  clearHatred()
   $.get(`/hateList/${id}`, function(details){
       let person = details.hateList
       let forgiveness = person.forgive == "false" ? "Not Forgiven" : "Forgiven"
@@ -73,23 +109,6 @@ function renderSelected(id) {
       )
     })
 }
-
-$('.submit').click(function(e){
-  e.preventDefault()
-  let hated = {
-    name: $('.name').val(),
-    offense: $('.offense').val(),
-    date: $('.date').val()
-  }
-
-  $.ajax({
-    type: "POST",
-    url: '/hateList',
-    data: {
-      hated
-    }
-  })
-})
 
 function clearHatred() {
   $('.hate-table').empty()
@@ -112,4 +131,24 @@ function toggleForgiveness(id) {
       renderSelected(id)
     })
   })
+}
+
+$('.name').on('keyup', function(){
+  buttonCheck();
+})
+
+$('.offense').on('keyup', function() {
+  buttonCheck();
+})
+
+$('.date').on('change', function() {
+  buttonCheck();
+})
+
+function buttonCheck(){
+  name = $('.name').val();
+  offense = $('.offense').val();
+  date = $('.date').val();
+  var fieldsComplete = name && offense && date
+  $('.submit').attr('disabled', !fieldsComplete);
 }
