@@ -6,28 +6,32 @@
     <title>160h8</title>
   </head>
   <body>
-    <h1>160h8</h1>
-    <h4>The place to keep track of the attrocities committed against you by students, staff, and instructors while a student in 1608-FE at Turing School of Software and Design.</h4>
-    <section>
-      <form class="hate-form" >
-        <input type="text" placeHolder="Name of Person H8ted" class="name">
-        <input type="text" placeHolder="H8ted person's offense" class="offense">
-        <input type="date" class="date" class="date">
-        <input type="submit" class="submit" disabled="true">
-      </form>
-      <button type="button" name="button" class="filter-name">Filter by Name</button>
-      <button type="button" name="button" class="filter-date">Filter by Date Offended</button>
-      <ul>
-        <li>Offender Names: <span class="offender-names"></span></li>
-        <li>Total Offenders: <span class="total-offenders"></span></li>
-        <li>Number Unforgiven: <span class="number-unforgiven"></span></li>
-        <li>Number Forgiven: <span class="number-forgiven"></span></li>
-      </ul>
-    </section>
-    <div class="all-the-hatred">
-      <table class="hate-table">
+    <div class="left">
+      <h1>160h8</h1>
+      <h4>Your hatred is black and white. <br/><br/> You used to hate them, you still do, but you used to too. <br/><br/>The list of the students, staff, and instructors and the attrocities committed against you while a student in 1608-FE at Turing School of Software and Design.</h4>
+      <section>
+        <form class="hate-form" >
+          <input type="text" placeHolder="Name of Person H8ted" class="name">
+          <input type="text" placeHolder="H8ted person's offense" class="offense">
+          <input type="date" class="date" class="date">
+          <input type="submit" class="submit" disabled="true">
+        </form>
+        <button type="button" name="button" class="filter-name">Filter by Name</button>
+        <button type="button" name="button" class="filter-date">Filter by Date Offended</button>
+        <ul class="stats-list">
+          <li>Offender Names: <span class="offender-names"></span></li>
+          <li>Total Offenders: <span class="total-offenders"></span></li>
+          <li>Number Unforgiven: <span class="number-unforgiven"></span></li>
+          <li>Number Forgiven: <span class="number-forgiven"></span></li>
+        </ul>
+      </section>
+    </div>
+    <div class="right">
+      <div class="all-the-hatred">
+        <table class="hate-table">
 
-      </table>
+        </table>
+      </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="./scripts.js"></script>
