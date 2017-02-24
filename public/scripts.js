@@ -34,14 +34,14 @@ function renderData() {
 function renderTotalOffenders() {
   $.get('/hateList', function(hateList){
     $('.total-offenders').text(hateList.length)
-    })
+  })
 }
 
 function renderForgiven() {
   let totalForgiven = 0
   $.get('/hateList', function(hateList){
     hateList.forEach(e => {
-      if(e.forgive == "true"){ totalForgiven += 1 }
+      if(e.forgive == "true" || e.forgive == true){ totalForgiven += 1 }
       $('.number-forgiven').text(totalForgiven)
     })
   })
@@ -51,7 +51,7 @@ function renderUnforgiven() {
   let total = 0
   $.get('/hateList', function(hateList){
     hateList.forEach(e => {
-      if(e.forgive == "false"){ total += 1 }
+      if(e.forgive == "false" || e.forgive == false){ total += 1 }
       $('.number-unforgiven').text(total)
     })
   })
@@ -89,6 +89,7 @@ function renderOffenderNamesSorted(obj) {
 }
 
 function renderSelected(id) {
+  clearHatred()
   $.get(`/hateList/${id}`, function(details){
       let person = details.hateList
       let forgiveness = person.forgive == "false" ? "Not Forgiven" : "Forgiven"
@@ -116,7 +117,7 @@ function clearHatred() {
 
 function toggleForgiveness(id) {
   $.get(`/hateList/${id}`, function(response) {
-    let toggle = response.hateList.forgive == "false" ? true : false
+    let toggle = response.hateList.forgive == "false" || response.hateList.forgive == false ? true : false
     $.ajax({
       type: "PUT",
       url: `/hateList/${id}`,
