@@ -41,11 +41,10 @@ describe('UPDATE /hateList/:id', () => {
 
   it('should update a hated person with the correct forgiveness ', (done) => {
     const hated = app.locals.hateList[0];
-    console.log(app.locals.hateList[0])
 
     request(app)
       .put(`/hateList/${hated.id}`)
-      .send({ hated: { forgive: false } })
+      .send({ forgive: false })
       .expect(204)
       .end(() => {
         assert.equal(app.locals.hateList[0].forgive, false);
