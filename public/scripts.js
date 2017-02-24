@@ -78,7 +78,44 @@ $('.filter-name').on('click', function() {
   getOffenderNames(renderOffenderNamesSorted)
 })
 
+$('.filter-date').on('click', function() {
+  clearOffenders()
+  getOffenderNames(renderOffenderNamesByDate)
+})
+
 function renderOffenderNamesSorted(obj) {
+  obj.sort(function(a, b){
+    var nameA = a.name.toUpperCase();
+    var nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  })
+  obj.forEach(e => {
+    $('.offender-names').append(
+      `
+      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
+      `
+    )
+  })
+}
+
+function renderOffenderNamesByDate(obj) {
+  obj.sort(function(a, b){
+    var dateA = a.date.toUpperCase();
+    var dateB = b.date.toUpperCase();
+    if (dateA < dateB) {
+      return -1;
+    }
+    if (dateA > dateB) {
+      return 1;
+    }
+    return 0;
+  })
   obj.forEach(e => {
     $('.offender-names').append(
       `
