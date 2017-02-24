@@ -5,13 +5,11 @@ const path = require('path');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set('port', process.env.PORT || 3000)
+
 app.locals.hateList = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'December 31, 1969' }]
 
-if (!module.parent) {
-  app.listen(3000, () => {
-    console.log('160h8 is running on (http://localhost:3000)');
-  });
-}
+app.listen(process.env.PORT || 3000)
 
 app.use(express.static(path.join(__dirname, '/public')))
 
