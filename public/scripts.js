@@ -70,20 +70,18 @@ $('.filter-date').on('click', function() {
 })
 
 function renderOffenderNamesSorted(obj) {
-  obj.sort(function(a, b){
-    var nameA = a.name.toUpperCase();
-    var nameB = b.name.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  })
+  sortByName(obj)
   obj.forEach(e => {
     let rendered = renderOffenderNamesSimple(e)
     $('.offender-names').append(rendered)
+  })
+}
+
+function renderOffenderNamesByDate(obj) {
+  sortByDate(obj)
+  obj.forEach(e => {
+    let rendered = renderOffenderNamesSimple(e)
+    $('.offender-names').prepend(rendered)
   })
 }
 

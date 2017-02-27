@@ -36,28 +36,41 @@ function unforgivenCount(hateList) {
   return hateList.filter(e => e.forgive == 'false' || e.forgive == false).length
 }
 
-function renderOffenderNamesByDate(obj) {
+function sortByDate(obj) {
   obj.sort(function(a, b){
     var dateA = a.date.toUpperCase();
     var dateB = b.date.toUpperCase();
     if (dateA < dateB) {
-      return -1;
+      return 1;
     }
     if (dateA > dateB) {
+      return -1;
+    }
+    return 0;
+  })
+  return obj
+}
+
+function sortByName(obj) {
+  obj.sort(function(a, b){
+    var nameA = a.name.toUpperCase();
+    var nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
       return 1;
     }
     return 0;
   })
-  obj.forEach(e => {
-    let rendered = renderOffenderNamesSimple(e)
-    $('.offender-names').append(rendered)
-  })
+  return obj
 }
 
 if(typeof module !== 'undefined') {
   module.exports = {
     forgivenCount,
     unforgivenCount,
-    renderOffenderNamesByDate
+    sortByDate,
+    sortByName
   }
 }

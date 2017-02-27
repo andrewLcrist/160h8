@@ -25,22 +25,44 @@ describe('unforgivenCount', function(){
 
   it('generates number of unforgiven', function(){
     const unforgivenCount = require('../public/hateHelpers.js').unforgivenCount
+
     const hateList = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'December 31, 1969' }]
     expect(unforgivenCount(hateList)).to.equal(0)
   })
 })
 
-describe('render offdenders by date', function(){
+describe('render offenders by date', function(){
   jsdom()
 
   beforeEach(function() {
     $ = require('jquery')
   })
 
-  xit('sorts offenders by date of offense added', function(){
-    const renderOffenderNamesByDate = require('../public/hateHelpers.js').renderOffenderNamesByDate
-    const obj = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'December 31, 1969' }, { id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'January 31, 1969' }]
+  it('sorts offenders by date of offense added', function(){
+    const sortByDate = require('../public/hateHelpers.js').sortByDate
 
-    expect(renderOffenderNamesByDate(obj)).to.equal({ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'January 31, 2017' }, { id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: 'December 31, 1969' })
+    const obj = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: '2006-07-14' }, { id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: '1969-12-31' }]
+
+    let sorted = sortByDate(obj)
+
+    expect(sorted[0].date).to.equal('2006-07-14')
+  })
+})
+
+describe('render offenders by name', function(){
+  jsdom()
+
+  beforeEach(function() {
+    $ = require('jquery')
+  })
+
+  it('sorts offenders by name', function(){
+    const sortByName = require('../public/hateHelpers.js').sortByName
+
+    const obj = [{ id: 1, name: 'Meeka', offense: 'awesome teaching skills', forgive: true, date: '2006-07-14' }, { id: 1, name: 'Andrew', offense: 'awesome teaching skills', forgive: true, date: '1969-12-31' }]
+
+    let sorted = sortByName(obj)
+
+    expect(sorted[0].name).to.equal('Andrew')
   })
 })
