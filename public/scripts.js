@@ -40,20 +40,16 @@ function renderTotalOffenders() {
 function renderForgiven() {
   let totalForgiven = 0
   $.get('/hateList', function(hateList){
-    hateList.forEach(e => {
-      if(e.forgive == "true" || e.forgive == true){ totalForgiven += 1 }
-      $('.number-forgiven').text(totalForgiven)
-    })
+  const forgivenTotal = forgivenCount(hateList)
+  $('.number-forgiven').text(forgivenTotal)
   })
 }
 
 function renderUnforgiven() {
   let total = 0
   $.get('/hateList', function(hateList){
-    hateList.forEach(e => {
-      if(e.forgive == "false" || e.forgive == false){ total += 1 }
-      $('.number-unforgiven').text(total)
-    })
+  const unforgivenTotal = unforgivenCount(hateList)
+  $('.number-unforgiven').text(unforgivenTotal)
   })
 }
 
@@ -61,16 +57,6 @@ function getOffenderNames(task) {
   $.get('/hateList', function(hateList){
       task(hateList)
     })
-}
-
-function renderOffenderNames(obj) {
-  obj.forEach(e => {
-    $('.offender-names').append(
-      `
-      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
-      `
-    )
-  })
 }
 
 $('.filter-name').on('click', function() {
@@ -96,32 +82,8 @@ function renderOffenderNamesSorted(obj) {
     return 0;
   })
   obj.forEach(e => {
-    $('.offender-names').append(
-      `
-      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
-      `
-    )
-  })
-}
-
-function renderOffenderNamesByDate(obj) {
-  obj.sort(function(a, b){
-    var dateA = a.date.toUpperCase();
-    var dateB = b.date.toUpperCase();
-    if (dateA < dateB) {
-      return -1;
-    }
-    if (dateA > dateB) {
-      return 1;
-    }
-    return 0;
-  })
-  obj.forEach(e => {
-    $('.offender-names').append(
-      `
-      <li class="offender-name"><button class="offender-name-button" onclick="renderSelected(${e.id})" >${e.name}, ${e.date}</button></li>
-      `
-    )
+    let rendered = renderOffenderNamesSimple(e)
+    $('.offender-names').append(rendered)
   })
 }
 
@@ -130,21 +92,8 @@ function renderSelected(id) {
   $.get(`/hateList/${id}`, function(details){
       let person = details.hateList
       let forgiveness = person.forgive == "false" ? "Not Forgiven" : "Forgiven"
-      $('.hate-table').append(
-        `<tr>
-          <td>Offender: ${person.name}</td>
-        </tr>
-        <tr>
-          <td>Offense: ${person.offense}</td>
-        </tr>
-        <tr>
-          <td>Date of Offense: ${person.date}</td>
-        </tr>
-        <tr>
-          <td>Forgiven? <button class="toggle-hatred" onclick="toggleForgiveness(${person.id})" >${forgiveness}</button></td>
-        </tr>
-        `
-      )
+      let rendered = renderHateTable(person, forgiveness)
+      $('.hate-table').append(rendered)
     })
 }
 
